@@ -1,3 +1,5 @@
+
+import 'package:emart/screens/LoginScreen.dart';
 import 'package:emart/screens/SplashScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -13,6 +15,7 @@ void main() async {
     initialRoute: '/',
     routes: {
       '/': (context) => const SplashScreen(),
+      '/login' : (context) => LoginScreen()
     },
   ));
 }
