@@ -17,7 +17,7 @@ class SplashScreen extends StatelessWidget {
               onPressed: () {
                 Navigator.pushNamed(context, '/login');
               },
-              child: const Text('Let's get started!'))
+              child: const Text("Let's get started!"))
         ],
       ),
     );
