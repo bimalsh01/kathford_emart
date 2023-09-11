@@ -22,9 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
         .login(_emailController.text, _passwordController.text)
         .then((value) => {
               if (value == true)
-                {
-                  Esnackbar.show(context, "Login successfull")
-                }
+                {Esnackbar.show(context, "Login successfull")}
               else
                 Esnackbar.show(context, "Login Failed!")
             });
@@ -73,7 +71,13 @@ class _LoginScreenState extends State<LoginScreen> {
                       _login();
                     }
                   },
-                  child: Text('Login'))
+                  child: Text('Login')),
+              Text("Dont have an account?"),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/register');
+                  },
+                  child: Text("Register"))
             ],
           ),
         ),
