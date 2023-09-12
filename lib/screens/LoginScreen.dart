@@ -22,7 +22,9 @@ class _LoginScreenState extends State<LoginScreen> {
         .login(_emailController.text, _passwordController.text)
         .then((value) => {
               if (value == true)
-                {Esnackbar.show(context, "Login successfull")}
+                {
+                  Navigator.pushNamed(context, '/navbar'),
+                }
               else
                 Esnackbar.show(context, "Login Failed!")
             });

@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class Auth {
+  final _auth = FirebaseAuth.instance;
+
   Future<bool> login(String email, String password) async {
     bool isLogin = false;
     await FirebaseAuth.instance
@@ -37,5 +39,11 @@ class Auth {
         .catchError((error) => {isRegister = false});
 
     return isRegister;
+  }
+
+  // auto login
+  Future<User?> autoLogin() async {
+    User? user = _auth.currentUser;
+    return user;
   }
 }
