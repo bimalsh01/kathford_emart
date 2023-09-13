@@ -28,13 +28,41 @@ class _ProfileScreenState extends State<ProfileScreen> {
           SizedBox(height: 10),
           Text("bimal@gmail.com"),
           SizedBox(height: 10),
-          ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.red
+
+          Divider(
+            height: 20,
+          ),
+
+          // list view
+          Expanded(
+            child: ListView(
+              children: [
+                ListTile(
+                  leading: Icon(Icons.person),
+                  title: Text("Edit Profile"),
+                  subtitle: Text("Change your profile details"),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                ),
+                ListTile(
+                  leading: Icon(Icons.safety_check),
+                  title: Text("Change Password"),
+                  subtitle: Text("create a new password"),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                ),
+                ListTile(
+                  leading: Icon(Icons.shopping_bag),
+                  title: Text("My Products"),
+                  subtitle: Text("Show all your products"),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                )
+              ],
             ),
-            onPressed: () {}, 
-          child: Text("Logout")
-        )
+          ),
+
+          ElevatedButton(
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+              onPressed: () {},
+              child: Text("Logout"))
         ]),
       ),
     );
