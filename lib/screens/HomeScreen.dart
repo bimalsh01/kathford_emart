@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:emart/widgets/ProductCard.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
@@ -34,62 +35,45 @@ class _HomeScreenState extends State<HomeScreen> {
           )
         ],
       ),
-      body: Column(
-        children: [
-          CarouselSlider(
-              options: CarouselOptions(autoPlay: true),
-              items: imgList
-                  .map((item) => Container(
-                        child: Image.network(
-                          item,
-                          fit: BoxFit.cover,
-                          width: 1000,
-                        ),
-                      ))
-                  .toList()),
-          const SizedBox(height: 20),
-          const Text(
-            'Showing popular products',
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-          ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            CarouselSlider(
+                options: CarouselOptions(autoPlay: true),
+                items: imgList
+                    .map((item) => Container(
+                          child: Image.network(
+                            item,
+                            fit: BoxFit.cover,
+                            width: 1000,
+                          ),
+                        ))
+                    .toList()),
+            const SizedBox(height: 20),
+            const Text(
+              'Showing popular products',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            ),
 
-          // card
-          GridView.count(
-            crossAxisCount: 2,
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              Card(
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10)),
-                child: Column(
-                  children: [
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.network(
-                        'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2hvZXN8ZW58MHx8MHx8fDA%3D&w=1000&q=80',
-                        fit: BoxFit.cover,
-                        width: 1000,
-                        height: 120,
-                      ),
-                    ),
-                    Text(
-                      "Red Shoes",
-                      style:
-                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    ),
-                    Text("Fashion"),
-                    Text('NPR.200',
-                        style: TextStyle(
-                            color: Colors.red,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold))
-                  ],
+            // card
+            GridView.count(
+              crossAxisCount: 2,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              children: [
+                ProductCard(
+
                 ),
-              )
-            ],
-          )
-        ],
+                ProductCard(
+                  
+                ),
+                ProductCard(),
+                ProductCard(),
+                ProductCard(),
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
