@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart/widgets/ProductCard.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -56,22 +57,43 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
 
             // card
-            GridView.count(
-              crossAxisCount: 2,
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              children: [
-                ProductCard(
+            // GridView.count(
+            //   crossAxisCount: 2,
+            //   shrinkWrap: true,
+            //   physics: const NeverScrollableScrollPhysics(),
+            //   children: [
+            //     ProductCard(),
+            //   ],
+            // )
 
-                ),
-                ProductCard(
-                  
-                ),
-                ProductCard(),
-                ProductCard(),
-                ProductCard(),
-              ],
-            )
+            // future builder for getting data from firebase
+            FutureBuilder<QuerySnapshot?>(
+                future: FirebaseFirestore.instance.collection('products').get(),
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return const Center(child: Text('Failed to load data'));
+                  } else if (!snapshot.hasData) {
+                    return const Center(child: Text('No data found'));
+                  } else {
+                    final data = snapshot.data!.docs;
+
+                    return GridView.count(
+                        crossAxisCount: 2,
+                        shrinkWrap: true,
+                        physics: const NeverScrollableScrollPhysics(),
+                        children: List.generate(data.length, (index) {
+                          return ProductCard(
+                            name: data[index]['name'],
+                            price: data[index]['price'],
+                            description: data[index]['description'],
+                            category: data[index]['category'],
+                            image: data[index]['images'][0],
+                          );
+                        }));
+                  }
+                })
           ],
         ),
       ),
