@@ -34,6 +34,7 @@ class Auth {
           'lastname': lastname,
           'username': username,
           'email': email,
+          
         })
         .then((value) => {isRegister = true})
         .catchError((error) => {isRegister = false});
