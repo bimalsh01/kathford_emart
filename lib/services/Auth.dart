@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart/local_storage/SharedPref.dart';
 import 'package:emart/model/Users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
 
 class Auth {
   final _auth = FirebaseAuth.instance;
@@ -13,16 +12,21 @@ class Auth {
         .signInWithEmailAndPassword(email: email, password: password)
         .then((value) async {
       String userId = value.user!.uid;
+      print(userId);
       var result = await FirebaseFirestore.instance
           .collection('users')
           .doc(userId)
           .get();
 
+      print(result.data()!);
+
       var decodeJson = Users().fromJson(result.data()!);
       await SharedPref().setUserData(userId, decodeJson);
 
       isLogin = true;
-    }).catchError((error) => {isLogin = false});
+    }).catchError((error) {
+      isLogin = false;
+    });
     return isLogin;
   }
 

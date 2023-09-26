@@ -1,6 +1,8 @@
+import 'package:emart/local_storage/SharedPref.dart';
 import 'package:emart/screens/AddProductScreen.dart';
 import 'package:emart/screens/HomeScreen.dart';
 import 'package:emart/screens/LoginScreen.dart';
+import 'package:emart/screens/ProductDetails.dart';
 import 'package:emart/screens/RegisterScreen.dart';
 import 'package:emart/screens/SplashScreen.dart';
 import 'package:emart/services/Auth.dart';
@@ -15,20 +17,20 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-
+  SharedPref().getUserData();
   User? user = await Auth().autoLogin();
-
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    initialRoute: user != null ? '/navbar' : '/' ,
+    initialRoute: user != null ? '/' : '/',
     routes: {
       '/': (context) => const SplashScreen(),
       '/login': (context) => LoginScreen(),
       '/register': (context) => RegisterScreen(),
       '/home': (context) => HomeScreen(),
       '/navbar': (context) => Navbar(),
-      '/add': (context) => AddProductScreen()
+      '/add': (context) => AddProductScreen(),
+      '/details': (context) => ProductDetails(),
     },
   ));
 }

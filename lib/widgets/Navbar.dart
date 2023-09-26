@@ -3,6 +3,7 @@ import 'package:emart/screens/HomeScreen.dart';
 import 'package:emart/screens/ProfileScreen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
 
 class Navbar extends StatefulWidget {
   const Navbar({super.key});
@@ -13,7 +14,12 @@ class Navbar extends StatefulWidget {
 
 class _NavbarState extends State<Navbar> {
   int _selectedIndex = 0;
-  final _screen = [HomeScreen(), AddProductScreen(), ProfileScreen()];
+  final _screen = [
+    HomeScreen(),
+    AddProductScreen(),
+    ProfileScreen(),
+    ProfileScreen()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -21,20 +27,38 @@ class _NavbarState extends State<Navbar> {
       body: Center(
         child: _screen.elementAt(_selectedIndex),
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.add_a_photo), label: 'Add Product'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
-        selectedItemColor: Colors.red,
+      bottomNavigationBar: SalomonBottomBar(
         currentIndex: _selectedIndex,
-        onTap: (value) {
-          setState(() {
-            _selectedIndex = value;
-          });
-        },
+        onTap: (i) => setState(() => _selectedIndex = i),
+        items: [
+          /// Home
+          SalomonBottomBarItem(
+            icon: Icon(Icons.home),
+            title: Text("Home"),
+            selectedColor: Colors.purple,
+          ),
+
+          /// Likes
+          SalomonBottomBarItem(
+            icon: Icon(Icons.favorite_border),
+            title: Text("Favourites"),
+            selectedColor: Colors.pink,
+          ),
+
+          /// Search
+          SalomonBottomBarItem(
+            icon: Icon(Icons.add),
+            title: Text("Add"),
+            selectedColor: Colors.orange,
+          ),
+
+          /// Profile
+          SalomonBottomBarItem(
+            icon: Icon(Icons.person),
+            title: Text("Profile"),
+            selectedColor: Colors.teal,
+          ),
+        ],
       ),
     );
   }

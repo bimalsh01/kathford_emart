@@ -8,8 +8,8 @@ class Users {
 
   Users fromJson(Map<String, dynamic> json) {
     return Users(
-      firstName: json['firstName'],
-      lastName: json['lastName'],
+      firstName: json['firsname'],
+      lastName: json['lastname'],
       email: json['email'],
       username: json['username'],
     );
