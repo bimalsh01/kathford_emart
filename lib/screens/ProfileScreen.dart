@@ -1,4 +1,4 @@
-import 'package:flutter/foundation.dart';
+import 'package:emart/global_variables.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -23,10 +23,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
               backgroundImage: NetworkImage(
                   'https://xsgames.co/randomusers/avatar.php?g=male')),
           SizedBox(height: 10),
-          Text("Bimal Shrestha",
+          Text("$firstName $lastName",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
           SizedBox(height: 10),
-          Text("bimal@gmail.com"),
+          Text("$email"),
           SizedBox(height: 10),
 
           Divider(

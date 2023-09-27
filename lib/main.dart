@@ -22,7 +22,7 @@ void main() async {
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
-    initialRoute: user != null ? '/' : '/',
+    initialRoute: user != null ? '/navbar' : '/',
     routes: {
       '/': (context) => const SplashScreen(),
       '/login': (context) => LoginScreen(),

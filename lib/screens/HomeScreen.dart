@@ -85,12 +85,27 @@ class _HomeScreenState extends State<HomeScreen> {
                         shrinkWrap: true,
                         physics: const NeverScrollableScrollPhysics(),
                         children: List.generate(data.length, (index) {
-                          return ProductCard(
-                            name: data[index]['name'],
-                            price: data[index]['price'],
-                            description: data[index]['description'],
-                            category: data[index]['category'],
-                            image: data[index]['images'][0],
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.pushNamed(context, "/details",
+                              arguments: {
+                                "name": data[index]['name'],
+                                "price": data[index]['price'],
+                                "description": data[index]['description'],
+                                "category": data[index]['category'],
+                                "images": data[index]['images'],
+                                "userId": data[index]['userId'],
+                              }
+
+                              );
+                            },
+                            child: ProductCard(
+                              name: data[index]['name'],
+                              price: data[index]['price'],
+                              description: data[index]['description'],
+                              category: data[index]['category'],
+                              image: data[index]['images'][0],
+                            ),
                           );
                         }));
                   }
