@@ -1,4 +1,5 @@
 import 'package:emart/global_variables.dart';
+import 'package:emart/services/Auth.dart';
 import 'package:flutter/material.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -9,6 +10,35 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  void _signOut() {
+    showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text("Sign out"),
+            content: Text("Are you sure want to logout?"),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(
+                  "Cancel",
+                  style: TextStyle(color: Colors.red),
+                ),
+              ),
+              TextButton(
+                onPressed: () {
+                  Auth().signOut();
+                  Navigator.pushNamed(context, '/login');
+                },
+                child: Text("Confirm"),
+              )
+            ],
+          );
+        });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,21 +68,39 @@ class _ProfileScreenState extends State<ProfileScreen> {
             child: ListView(
               children: [
                 ListTile(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/edit');
+                  },
                   leading: Icon(Icons.person),
                   title: Text("Edit Profile"),
                   subtitle: Text("Change your profile details"),
                   trailing: Icon(Icons.arrow_forward_ios),
                 ),
                 ListTile(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/changepassword');
+                  },
                   leading: Icon(Icons.safety_check),
                   title: Text("Change Password"),
                   subtitle: Text("create a new password"),
                   trailing: Icon(Icons.arrow_forward_ios),
                 ),
                 ListTile(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/myproducts');
+                  },
                   leading: Icon(Icons.shopping_bag),
                   title: Text("My Products"),
                   subtitle: Text("Show all your products"),
+                  trailing: Icon(Icons.arrow_forward_ios),
+                ),
+                ListTile(
+                  onTap: () {
+                    Navigator.pushNamed(context, '/myproducts');
+                  },
+                  leading: Icon(Icons.favorite),
+                  title: Text("Favourite"),
+                  subtitle: Text("view your favourite products"),
                   trailing: Icon(Icons.arrow_forward_ios),
                 )
               ],
@@ -61,8 +109,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
           ElevatedButton(
               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-              onPressed: () {},
-              child: Text("Logout"))
+              onPressed: () {
+                _signOut();
+              },
+              child: const Text("Logout"))
         ]),
       ),
     );

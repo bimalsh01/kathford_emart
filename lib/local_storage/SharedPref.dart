@@ -25,4 +25,14 @@ class SharedPref{
 
   }
 
+  // remove user data
+  Future<void> removeUserData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove('userId');
+    prefs.remove('firstName');
+    prefs.remove('lastName');
+    prefs.remove('email');
+    prefs.remove('username');
+  }
+
 }

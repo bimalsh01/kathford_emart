@@ -1,6 +1,7 @@
 import 'package:emart/screens/AddProductScreen.dart';
 import 'package:emart/screens/HomeScreen.dart';
 import 'package:emart/screens/ProfileScreen.dart';
+import 'package:emart/screens/SearchScreen.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
@@ -16,8 +17,8 @@ class _NavbarState extends State<Navbar> {
   int _selectedIndex = 0;
   final _screen = [
     HomeScreen(),
+    SearchScreen(),
     AddProductScreen(),
-    ProfileScreen(),
     ProfileScreen()
   ];
 
@@ -40,8 +41,8 @@ class _NavbarState extends State<Navbar> {
 
           /// Likes
           SalomonBottomBarItem(
-            icon: Icon(Icons.favorite_border),
-            title: Text("Favourites"),
+            icon: Icon(Icons.search),
+            title: Text("Search"),
             selectedColor: Colors.pink,
           ),
 

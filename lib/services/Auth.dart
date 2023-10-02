@@ -62,4 +62,12 @@ class Auth {
     User? user = _auth.currentUser;
     return user;
   }
+
+  // logout
+  Future<void> signOut() async{
+    await _auth.signOut();
+    await SharedPref().removeUserData();
+  }
+
+
 }

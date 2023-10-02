@@ -95,9 +95,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                 "category": data[index]['category'],
                                 "images": data[index]['images'],
                                 "userId": data[index]['userId'],
-                              }
-
-                              );
+                              });
                             },
                             child: ProductCard(
                               name: data[index]['name'],

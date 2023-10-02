@@ -3,6 +3,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart/model/Users.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:mailto/mailto.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProductDetails extends StatefulWidget {
   const ProductDetails({super.key});
@@ -12,19 +14,13 @@ class ProductDetails extends StatefulWidget {
 }
 
 class _ProductDetailsState extends State<ProductDetails> {
-  final List<String> imgList = [
-    'https://images.unsplash.com/photo-1542291026-7eec264c27ff?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8c2hvZXN8ZW58MHx8MHx8fDA%3D&w=1000&q=80',
-    'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2071&q=80',
-    'https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
-    'https://images.unsplash.com/photo-1593305841991-05c297ba4575?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1957&q=80',
-  ];
+  List<dynamic> imgList = [];
 
   String? userId;
   String? firstName;
   String? lastName;
   String? email;
   void getUserData() async {
-    print(userId);
     if (userId != null) {
       var result = await FirebaseFirestore.instance
           .collection('users')
@@ -40,10 +36,25 @@ class _ProductDetailsState extends State<ProductDetails> {
     }
   }
 
+  // open mail app
+  void _goToMail() async {
+    try {
+      final mailData = Mailto(
+          to: [email!],
+          subject: "Product Inquiry",
+          body: "Hi, I am interested in your product. Please contact me."
+        );
+      await launch('$mailData');
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map data = ModalRoute.of(context)!.settings.arguments as Map;
     userId = data['userId'];
+    imgList = data['images'];
     getUserData();
     return Scaffold(
       appBar: AppBar(
@@ -110,7 +121,9 @@ class _ProductDetailsState extends State<ProductDetails> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      _goToMail();
+                    },
                     child: Text("Contact with email")),
                 IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border))
               ],

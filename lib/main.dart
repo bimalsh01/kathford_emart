@@ -1,7 +1,11 @@
 import 'package:emart/local_storage/SharedPref.dart';
 import 'package:emart/screens/AddProductScreen.dart';
+import 'package:emart/screens/ChangePasswordScreen.dart';
+import 'package:emart/screens/EditProfileScreen.dart';
+import 'package:emart/screens/FavouriteScreen.dart';
 import 'package:emart/screens/HomeScreen.dart';
 import 'package:emart/screens/LoginScreen.dart';
+import 'package:emart/screens/MyProductsScreen.dart';
 import 'package:emart/screens/ProductDetails.dart';
 import 'package:emart/screens/RegisterScreen.dart';
 import 'package:emart/screens/SplashScreen.dart';
@@ -31,6 +35,10 @@ void main() async {
       '/navbar': (context) => Navbar(),
       '/add': (context) => AddProductScreen(),
       '/details': (context) => ProductDetails(),
+      '/myproducts': (context) => MyProductsScreen(),
+      '/edit': (context) => EditProfileScreen(),
+      '/favourite': (context) => FavoutiteScreen(),
+      '/changepassword': (context) => ChangePasswordScreen(),
     },
   ));
 }
