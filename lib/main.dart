@@ -1,6 +1,7 @@
 import 'package:emart/local_storage/SharedPref.dart';
 import 'package:emart/screens/AddProductScreen.dart';
 import 'package:emart/screens/ChangePasswordScreen.dart';
+import 'package:emart/screens/EditProductsScreen.dart';
 import 'package:emart/screens/EditProfileScreen.dart';
 import 'package:emart/screens/FavouriteScreen.dart';
 import 'package:emart/screens/HomeScreen.dart';
@@ -39,6 +40,7 @@ void main() async {
       '/edit': (context) => EditProfileScreen(),
       '/favourite': (context) => FavoutiteScreen(),
       '/changepassword': (context) => ChangePasswordScreen(),
+      '/edit_product': (context) => EditProductsScreen()
     },
   ));
 }

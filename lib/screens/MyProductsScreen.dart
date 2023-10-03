@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart/global_variables.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -49,7 +50,8 @@ class _MyProductsScreenState extends State<MyProductsScreen> {
         body: FutureBuilder(
             future: FirebaseFirestore.instance
                 .collection('products')
-                .where('userId', isEqualTo: userId)
+                .where('userId',
+                    isEqualTo: FirebaseAuth.instance.currentUser!.uid)
                 .get(),
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
@@ -72,7 +74,20 @@ class _MyProductsScreenState extends State<MyProductsScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
-                                onPressed: () {}, icon: const Icon(Icons.edit)),
+                                onPressed: () {
+                                  Navigator.pushNamed(context, '/edit_product',
+                                      arguments: {
+                                        "id": data[index].id,
+                                        "name": data[index]['name'],
+                                        "price": data[index]['price'],
+                                        "description": data[index]
+                                            ['description'],
+                                        "category": data[index]['category'],
+                                        "images": data[index]['images'],
+                                        "userId": data[index]['userId'],
+                                      });
+                                },
+                                icon: const Icon(Icons.edit)),
                             IconButton(
                                 onPressed: () {
                                   _deleteProduct();

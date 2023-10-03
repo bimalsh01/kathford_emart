@@ -23,7 +23,20 @@ class ProductServices {
 
   Future<void> createProduct(Products product) async {
     try {
-      await FirebaseFirestore.instance.collection('products').add(product.toJson());
+      await FirebaseFirestore.instance
+          .collection('products')
+          .add(product.toJson());
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> updateProduct(productId, Products product) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('products')
+          .doc(productId)
+          .update(product.toJson());
     } catch (e) {
       print(e);
     }
