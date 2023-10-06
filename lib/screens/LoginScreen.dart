@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:emart/services/Auth.dart';
 import 'package:emart/widgets/Esnackbar.dart';
 import 'package:flutter/material.dart';
@@ -24,6 +25,13 @@ class _LoginScreenState extends State<LoginScreen> {
               if (value == true)
                 {
                   Navigator.pushNamed(context, '/navbar'),
+                  AwesomeNotifications().createNotification(
+                      content: NotificationContent(
+                    id: 1,
+                    channelKey: 'basic_channel',
+                    title: 'Hey Man!',
+                    body: 'Welcome to E-Mart',
+                  ))
                 }
               else
                 Esnackbar.show(context, "Login Failed!")

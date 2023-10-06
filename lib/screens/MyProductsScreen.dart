@@ -12,7 +12,7 @@ class MyProductsScreen extends StatefulWidget {
 }
 
 class _MyProductsScreenState extends State<MyProductsScreen> {
-  void _deleteProduct() {
+  void _deleteProduct(String id) {
     showDialog(
         context: context,
         builder: (BuildContext context) {
@@ -30,7 +30,14 @@ class _MyProductsScreenState extends State<MyProductsScreen> {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  FirebaseFirestore.instance
+                      .collection('products')
+                      .doc(id)
+                      .delete();
+                  Navigator.pop(context);
+                  setState(() {});
+                },
                 child: Text("Confirm"),
               )
             ],
@@ -90,7 +97,7 @@ class _MyProductsScreenState extends State<MyProductsScreen> {
                                 icon: const Icon(Icons.edit)),
                             IconButton(
                                 onPressed: () {
-                                  _deleteProduct();
+                                  _deleteProduct(data[index].id);
                                 },
                                 icon: const Icon(Icons.delete)),
                           ],

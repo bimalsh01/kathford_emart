@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:emart/local_storage/SharedPref.dart';
 import 'package:emart/screens/AddProductScreen.dart';
 import 'package:emart/screens/ChangePasswordScreen.dart';
@@ -10,6 +11,7 @@ import 'package:emart/screens/MyProductsScreen.dart';
 import 'package:emart/screens/ProductDetails.dart';
 import 'package:emart/screens/RegisterScreen.dart';
 import 'package:emart/screens/SplashScreen.dart';
+import 'package:emart/screens/TestScreen.dart';
 import 'package:emart/services/Auth.dart';
 import 'package:emart/widgets/Navbar.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -24,6 +26,18 @@ void main() async {
   );
   SharedPref().getUserData();
   User? user = await Auth().autoLogin();
+
+  // Awesome Notifications
+  AwesomeNotifications().initialize('resource://drawable/launcher', [
+    NotificationChannel(
+        channelKey: "basic_channel",
+        channelName: "Basic notifications",
+        channelDescription: "Notification channel for App",
+        defaultColor: Color(0xFF9D50DD),
+        ledColor: Colors.white,
+        vibrationPattern: lowVibrationPattern,
+        playSound: true)
+  ]);
 
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
@@ -40,7 +54,8 @@ void main() async {
       '/edit': (context) => EditProfileScreen(),
       '/favourite': (context) => FavoutiteScreen(),
       '/changepassword': (context) => ChangePasswordScreen(),
-      '/edit_product': (context) => EditProductsScreen()
+      '/edit_product': (context) => EditProductsScreen(),
+      '/test': (context) => TestScreen()
     },
   ));
 }

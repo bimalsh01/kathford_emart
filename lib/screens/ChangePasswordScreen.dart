@@ -1,3 +1,6 @@
+import 'package:emart/widgets/Esnackbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -13,6 +16,29 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
   TextEditingController _newPasswordController = TextEditingController();
   TextEditingController _confirmPasswordController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
+
+  void _changePassword() {
+    final oldPassword = _oldPasswordController.text;
+    final newPassword = _newPasswordController.text;
+    final confirmPassword = _confirmPasswordController.text;
+
+    if (newPassword == confirmPassword) {
+      try {
+        User? user = FirebaseAuth.instance.currentUser;
+        AuthCredential credential = EmailAuthProvider.credential(
+            email: user!.email!, password: oldPassword);
+        user.reauthenticateWithCredential(credential);
+        user.updatePassword(newPassword);
+        Esnackbar.show(context, "Password changed successfully");
+      } catch (e) {
+        Esnackbar.show(context, "Old password is incorrect");
+      }
+    } else {
+      Esnackbar.show(
+          context, "New password and confirm password does not match");
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,6 +61,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     }
                     return null;
                   },
+                  obscureText: true,
                   controller: _oldPasswordController,
                   decoration: InputDecoration(
                     labelText: 'Old password',
@@ -43,6 +70,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   )),
               const SizedBox(height: 20),
               TextFormField(
+                  obscureText: true,
                   validator: (value) {
                     if (value!.isEmpty) {
                       return 'Enter your new password';
@@ -57,6 +85,7 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
                   )),
               const SizedBox(height: 20),
               TextFormField(
+                  obscureText: true,
                   controller: _confirmPasswordController,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -72,7 +101,9 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               const SizedBox(height: 20),
               ElevatedButton(
                   onPressed: () {
-                    if (_formKey.currentState!.validate()) {}
+                    if (_formKey.currentState!.validate()) {
+                      _changePassword();
+                    }
                   },
                   child: const Text('Change password'),
                   style: ElevatedButton.styleFrom(
