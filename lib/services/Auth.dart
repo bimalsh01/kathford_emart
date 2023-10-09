@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart/local_storage/SharedPref.dart';
 import 'package:emart/model/Users.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class Auth {
   final _auth = FirebaseAuth.instance;
@@ -69,5 +72,31 @@ class Auth {
     await SharedPref().removeUserData();
   }
 
+  // upload profile
+  Future<String?> uploadProfile(File imageFile) async {
+    try {
+      // path to storage
+      final path = 'profile/${DateTime.now()}.png';
+      final file = File(imageFile.path);
+      final ref = firebase_storage.FirebaseStorage.instance.ref().child(path);
+      await ref.putFile(file);
+      final url = await ref.getDownloadURL();
+      return url;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 
+  Future<void> updateUser(userId, Users user) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userId)
+          .update(user.toJson());
+    } catch (e) {
+      print(e);
+    }
+  }
+  
 }

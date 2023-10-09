@@ -49,9 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           CircleAvatar(
-              radius: 50,
-              backgroundImage: NetworkImage(
-                  'https://xsgames.co/randomusers/avatar.php?g=male')),
+              radius: 50, backgroundImage: NetworkImage(profileImage!)),
           SizedBox(height: 10),
           Text("$firstName $lastName",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),

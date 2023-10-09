@@ -12,6 +12,17 @@ class SharedPref{
     prefs.setString('lastName', data.lastName);
     prefs.setString('email', data.email);
     prefs.setString('username', data.username);
+    prefs.setString('phoneNumber', data.phoneNumber);
+    prefs.setString('profileImage', data.profileImage);
+  }
+
+  Future<void> updateUserData(updatedData) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('firstName', updatedData.firstName);
+    prefs.setString('lastName', updatedData.lastName);
+    prefs.setString('username', updatedData.username);
+    prefs.setString('phoneNumber', updatedData.phoneNumber);
+    prefs.setString('profileImage', updatedData.profileImage);
   }
 
 
@@ -22,7 +33,8 @@ class SharedPref{
     lastName = prefs.getString("lastName");
     email = prefs.getString("email");
     username = prefs.getString("username");
-
+    phoneNumber = prefs.getString("phoneNumber");
+    profileImage = prefs.getString("profileImage");
   }
 
   // remove user data
@@ -33,6 +45,8 @@ class SharedPref{
     prefs.remove('lastName');
     prefs.remove('email');
     prefs.remove('username');
+    prefs.remove('phoneNumber');
+    prefs.remove('profileImage');
   }
 
 }
