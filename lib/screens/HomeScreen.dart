@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
-
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -20,6 +19,8 @@ class _HomeScreenState extends State<HomeScreen> {
     'https://images.unsplash.com/photo-1529374255404-311a2a4f1fd9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2069&q=80',
     'https://images.unsplash.com/photo-1593305841991-05c297ba4575?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1957&q=80',
   ];
+
+  String filterCategory = 'all';
 
   @override
   Widget build(BuildContext context) {
@@ -57,19 +58,75 @@ class _HomeScreenState extends State<HomeScreen> {
               style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
             ),
 
-            // card
-            // GridView.count(
-            //   crossAxisCount: 2,
-            //   shrinkWrap: true,
-            //   physics: const NeverScrollableScrollPhysics(),
-            //   children: [
-            //     ProductCard(),
-            //   ],
-            // )
+            // list of products category
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SizedBox(
+                height: 40,
+                child: ListView(
+                  scrollDirection: Axis.horizontal,
+                  children: [
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: filterCategory == 'all'
+                            ? Colors.blue
+                            : Colors.white,
+                        foregroundColor: filterCategory == 'all'
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          filterCategory = 'all';
+                        });
+                      },
+                      child: const Text('All'),
+                    ),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: filterCategory == 'furniture'
+                            ? Colors.blue
+                            : Colors.white,
+                        foregroundColor: filterCategory == 'furniture'
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          filterCategory = 'furniture';
+                        });
+                      },
+                      child: const Text('Furniture'),
+                    ),
+                    OutlinedButton(
+                      style: OutlinedButton.styleFrom(
+                        backgroundColor: filterCategory == 'clothes'
+                            ? Colors.blue
+                            : Colors.white,
+                        foregroundColor: filterCategory == 'clothes'
+                            ? Colors.white
+                            : Colors.black,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          filterCategory = 'clothes';
+                        });
+                      },
+                      child: const Text('Clothes'),
+                    ),
+                  ],
+                ),
+              ),
+            ),
 
             // future builder for getting data from firebase
             FutureBuilder<QuerySnapshot?>(
-                future: FirebaseFirestore.instance.collection('products').get(),
+                future: filterCategory == "all"
+                    ? FirebaseFirestore.instance.collection('products').get()
+                    : FirebaseFirestore.instance
+                        .collection('products')
+                        .where("category", isEqualTo: filterCategory)
+                        .get(),
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(child: CircularProgressIndicator());
@@ -88,14 +145,14 @@ class _HomeScreenState extends State<HomeScreen> {
                           return GestureDetector(
                             onTap: () {
                               Navigator.pushNamed(context, "/details",
-                              arguments: {
-                                "name": data[index]['name'],
-                                "price": data[index]['price'],
-                                "description": data[index]['description'],
-                                "category": data[index]['category'],
-                                "images": data[index]['images'],
-                                "userId": data[index]['userId'],
-                              });
+                                  arguments: {
+                                    "name": data[index]['name'],
+                                    "price": data[index]['price'],
+                                    "description": data[index]['description'],
+                                    "category": data[index]['category'],
+                                    "images": data[index]['images'],
+                                    "userId": data[index]['userId'],
+                                  });
                             },
                             child: ProductCard(
                               name: data[index]['name'],
