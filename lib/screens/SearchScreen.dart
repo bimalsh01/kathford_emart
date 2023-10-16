@@ -69,6 +69,7 @@ class _SearchScreenState extends State<SearchScreen> {
                                       "category": data[index]['category'],
                                       "images": data[index]['images'],
                                       "userId": data[index]['userId'],
+                                      "favouriteBy" : data[index]['favouriteBy']
                                     });
                               },
                               child: ListTile(

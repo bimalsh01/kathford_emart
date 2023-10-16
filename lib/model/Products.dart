@@ -4,6 +4,7 @@ class Products {
   String? category;
   String? price;
   List<String?>? images;
+  List<String?>? favouriteBy;
   String? userId;
 
   Products({
@@ -12,6 +13,7 @@ class Products {
     this.category,
     this.price,
     this.images,
+    this.favouriteBy,
     this.userId,
   });
 
@@ -23,6 +25,7 @@ class Products {
       'category': category,
       'price': price,
       'images': images,
+      'favouriteBy': favouriteBy,
       'userId': userId,
     };
   }

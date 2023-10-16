@@ -5,4 +5,4 @@ String? email;
 String? username;
 String? userId;
 String? phoneNumber;
-String? profileImage;
+String? profileImage = "https://via.placeholder.com/150";

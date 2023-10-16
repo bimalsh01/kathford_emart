@@ -49,7 +49,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
       body: Center(
         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           CircleAvatar(
-              radius: 50, backgroundImage: NetworkImage(profileImage!)),
+              radius: 50, backgroundImage: NetworkImage(
+                          profileImage == null ? 'https://via.placeholder.com/150' : profileImage!
+                        )),
           SizedBox(height: 10),
           Text("$firstName $lastName",
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold)),
@@ -94,7 +96,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 ),
                 ListTile(
                   onTap: () {
-                    Navigator.pushNamed(context, '/myproducts');
+                    Navigator.pushNamed(context, '/favourite');
                   },
                   leading: Icon(Icons.favorite),
                   title: Text("Favourite"),

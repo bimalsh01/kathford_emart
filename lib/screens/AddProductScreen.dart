@@ -58,6 +58,7 @@ class _AddProductScreenState extends State<AddProductScreen> {
       price: _priceController.text,
       images: uploadedUrls,
       userId: FirebaseAuth.instance.currentUser!.uid,
+      favouriteBy: [],
     );
 
     await ProductServices()

@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:emart/model/Users.dart';
+import 'package:emart/widgets/Esnackbar.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:mailto/mailto.dart';
@@ -50,10 +52,100 @@ class _ProductDetailsState extends State<ProductDetails> {
     }
   }
 
+  bool isFavourite = false;
+  String? productId;
+  String? productName;
+  String? productImage;
+
+  void _favouriteFunction() async{
+    
+    // finding user document
+    final userDocument = FirebaseFirestore
+      .instance
+      .collection("users")
+      .doc(FirebaseAuth.instance.currentUser!.uid);
+
+    // finding product document
+    final productDocument = FirebaseFirestore
+      .instance
+      .collection("products")
+      .doc(productId);
+
+    // creating favourite data
+    final favouriteData = {
+      "productId": productId ,
+      "productName":productName,
+      "productImage": productImage
+    };
+
+    try {
+      // if its true, remove from favourite
+      if(isFavourite){
+        await userDocument.update({
+          "favourites" : FieldValue.arrayRemove([favouriteData])
+        });
+        await productDocument.update({
+          "favouriteBy" : FieldValue.arrayRemove([FirebaseAuth.instance.currentUser!.uid])
+        });
+        Esnackbar.show(context, "Removed from favourites");
+        setState(() {
+             isFavourite = !isFavourite;
+        });
+      }
+      else{
+        await userDocument.update({
+          "favourites" : FieldValue.arrayUnion([favouriteData])
+        });
+        await productDocument.update({
+          "favouriteBy" : FieldValue.arrayUnion([FirebaseAuth.instance.currentUser!.uid])
+        });
+        Esnackbar.show(context, "Added to favourites");
+        setState(() {
+          isFavourite = !isFavourite;
+        });
+      }
+      
+    } catch (e) {
+      Esnackbar.show(context, "Error occured");
+    }
+  }
+
+  bool isRemoved = false;
+  List<dynamic> favouriteList = [];
+
+  void checkFavorite() async{
+    if(isRemoved){
+      setState(() {
+        isFavourite = false;
+      });
+    }
+    else{
+     if(favouriteList.contains(FirebaseAuth.instance.currentUser!.uid)){
+      setState(() {
+        isFavourite = true;
+      });
+    } 
+    else{
+      setState(() {
+        isFavourite = false;
+      });
+    }
+  }
+  }
+
   @override
   Widget build(BuildContext context) {
     final Map data = ModalRoute.of(context)!.settings.arguments as Map;
     userId = data['userId'];
+    productId = data['id'];
+    productName = data['name'];
+    productImage = data['images'][0];
+
+    favouriteList = data['favouriteBy'];
+
+    checkFavorite();
+    
+
     imgList = data['images'];
     getUserData();
     return Scaffold(
@@ -125,7 +217,14 @@ class _ProductDetailsState extends State<ProductDetails> {
                       _goToMail();
                     },
                     child: Text("Contact with email")),
-                IconButton(onPressed: () {}, icon: Icon(Icons.favorite_border))
+                IconButton(
+                  onPressed: () {
+                    _favouriteFunction();
+                  }, 
+                  icon: Icon(
+                    isFavourite ? Icons.favorite : Icons.favorite_border
+                  )
+                )
               ],
             )
           ],

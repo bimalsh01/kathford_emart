@@ -146,12 +146,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             onTap: () {
                               Navigator.pushNamed(context, "/details",
                                   arguments: {
+                                    "id": data[index].id,
                                     "name": data[index]['name'],
                                     "price": data[index]['price'],
                                     "description": data[index]['description'],
                                     "category": data[index]['category'],
                                     "images": data[index]['images'],
                                     "userId": data[index]['userId'],
+                                    "favouriteBy" : data[index]['favouriteBy']
                                   });
                             },
                             child: ProductCard(

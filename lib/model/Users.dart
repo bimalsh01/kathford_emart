@@ -21,8 +21,8 @@ class Users {
       lastName: json['lastname'],
       email: json['email'],
       username: json['username'],
-      phoneNumber: json['phoneNumber'],
-      profileImage: json['profileImage'],
+      phoneNumber: json['phoneNumber'] ?? "",
+      profileImage: json['profileImage'] ?? "https://via.placeholder.com/150",
     );
   }
 
